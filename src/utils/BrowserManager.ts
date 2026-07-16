@@ -1,4 +1,4 @@
-import { chromium, Browser, BrowserContext, Page } from 'playwright';
+import { chromium, firefox, webkit, Browser, BrowserContext, Page } from 'playwright';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -9,15 +9,23 @@ export class BrowserManager {
 
   async launch(headless?: boolean) {
     const envHeadless = process.env.HEADLESS;
-    const envBrowser = process.env.BROWSER; // e.g. 'chrome' to use installed Chrome
+    const envBrowser = process.env.BROWSER; // 'chromium' | 'firefox' | 'webkit' | 'chrome'
     const useHeadless = typeof headless === 'boolean' ? headless : envHeadless !== 'false';
 
     const launchOptions: any = { headless: useHeadless };
-    if (envBrowser && envBrowser.toLowerCase() === 'chrome') {
-      launchOptions.channel = 'chrome';
-    }
 
-    this.browser = await chromium.launch(launchOptions);
+    const browserKey = (envBrowser || 'chromium').toLowerCase();
+    if (browserKey === 'firefox') {
+      this.browser = await firefox.launch(launchOptions);
+    } else if (browserKey === 'webkit') {
+      this.browser = await webkit.launch(launchOptions);
+    } else if (browserKey === 'chrome') {
+      // use Chromium with Chrome channel if available
+      launchOptions.channel = 'chrome';
+      this.browser = await chromium.launch(launchOptions);
+    } else {
+      this.browser = await chromium.launch(launchOptions);
+    }
     this.context = await this.browser.newContext({
       recordVideo: { dir: path.join(process.cwd(), 'videos') }
     });
