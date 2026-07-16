@@ -7,8 +7,17 @@ export class BrowserManager {
   context?: BrowserContext;
   page?: Page;
 
-  async launch(headless = true) {
-    this.browser = await chromium.launch({ headless });
+  async launch(headless?: boolean) {
+    const envHeadless = process.env.HEADLESS;
+    const envBrowser = process.env.BROWSER; // e.g. 'chrome' to use installed Chrome
+    const useHeadless = typeof headless === 'boolean' ? headless : envHeadless !== 'false';
+
+    const launchOptions: any = { headless: useHeadless };
+    if (envBrowser && envBrowser.toLowerCase() === 'chrome') {
+      launchOptions.channel = 'chrome';
+    }
+
+    this.browser = await chromium.launch(launchOptions);
     this.context = await this.browser.newContext({
       recordVideo: { dir: path.join(process.cwd(), 'videos') }
     });
