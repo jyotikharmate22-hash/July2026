@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.env
+.idea/
+.vscode/
+allure-results/
+allure-report/
+reports/
+test-results/
+screenshots/
+videos/
+*.log
+package-lock.json
+node_modules/
+allure-results/
+allure-report/
+.env
