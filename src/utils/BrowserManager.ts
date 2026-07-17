@@ -10,7 +10,14 @@ export class BrowserManager {
   async launch(headless?: boolean) {
     const envHeadless = process.env.HEADLESS;
     const envBrowser = process.env.BROWSER; // 'chromium' | 'firefox' | 'webkit' | 'chrome'
-    const useHeadless = typeof headless === 'boolean' ? headless : envHeadless !== 'false';
+    const isCI = Boolean(process.env.CI || process.env.JENKINS_URL || process.env.JENKINS_HOME || process.env.GITHUB_ACTIONS || process.env.BUILD_NUMBER);
+    const useHeadless = typeof headless === 'boolean'
+      ? headless
+      : envHeadless === 'true'
+        ? true
+        : envHeadless === 'false'
+          ? false
+          : isCI;
 
     const launchOptions: any = { headless: useHeadless };
 

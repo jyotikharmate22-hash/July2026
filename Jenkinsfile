@@ -18,12 +18,17 @@ pipeline {
     }
     stage('Test') {
       steps {
-        bat 'node node_modules\\@cucumber\\cucumber\\bin\\cucumber-js'
+        bat 'npx cucumber-js'
       }
     }
     stage('Allure Report') {
       steps {
-        bat 'allure generate allure-results --clean -o allure-report'
+        bat 'npx allure generate .\\allure-results --clean -o .\\allure-report'
+      }
+    }
+    stage('Publish Allure Report') {
+      steps {
+        allure includeProperties: false, results: [[path: 'allure-results']]
       }
     }
   }

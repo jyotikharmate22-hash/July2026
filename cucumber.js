@@ -1,3 +1,16 @@
 module.exports = {
-  default: "--require-module ts-node/register --require-module tsconfig-paths/register --require src/step_Definitions/**/*.ts --require src/hooks/**/*.ts --format node_modules/allure-cucumberjs --format progress: src/features/**/*.feature"
+  default: {
+    paths: ["src/features/**/*.feature"],
+    require: [
+      "src/step_Definitions/**/*.ts",
+      "src/hooks/**/*.ts"
+    ],
+    requireModule: [
+      "ts-node/register"
+    ],
+    format: [
+      "progress",
+      "./src/reporters/allureReporter.ts"
+    ]
+  }
 };

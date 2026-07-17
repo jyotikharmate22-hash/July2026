@@ -1,12 +1,30 @@
 @echo off
-echo Installing npm dependencies...
-npm install
-echo Installing Playwright browsers...
-npx playwright install
-echo Running Cucumber tests...
-node node_modules\@cucumber\cucumber\bin\cucumber-js
-echo Generating Allure report...
-allure generate allure-results --clean -o allure-report
-echo Opening Allure report...
-allure open allure-report
+title Playwright Automation
+
+echo ===============================
+echo Starting Automation
+echo ===============================
+
+@echo off
+title Jenkins Automation
+
+cd /d D:\July2026
+
+echo Current Directory:
+cd
+
+echo.
+echo Node Version:
+node -v
+
+echo.
+echo NPM Version:
+npm -v
+
+echo.
+echo Running Cucumber Tests...
+call npx cucumber-js
+
+echo.
+echo Exit Code: %ERRORLEVEL%
 pause

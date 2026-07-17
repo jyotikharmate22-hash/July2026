@@ -8,7 +8,8 @@ setDefaultTimeout(60 * 1000);
 
 Before(async function () {
   this.browserManager = new BrowserManager();
-  this.page = await this.browserManager.launch(true);
+  const headless = process.env.HEADLESS === 'true' ? true : process.env.HEADLESS === 'false' ? false : undefined;
+  this.page = await this.browserManager.launch(headless);
 });
 
 After(async function (scenario) {

@@ -12,7 +12,7 @@ npm run playwright:install
 2. Run tests
 
 ```powershell
-node node_modules\@cucumber\cucumber\bin\cucumber-js
+npx cucumber-js
 ```
 
 3. Generate Allure report
@@ -23,7 +23,14 @@ npm run allure:open
 ```
 
 Jenkins:
-- Use `Jenkins.bat` to run install, tests and open report on Windows agents.
+- The pipeline is defined in `Jenkinsfile` for automatic CI execution.
+- Jenkins uses:
+  - `npm ci`
+  - `npx playwright install --with-deps`
+  - `npx cucumber-js`
+  - `npx allure generate .\allure-results --clean -o .\allure-report`
+- The Jenkins Allure plugin publishes results from `allure-results`.
+- For Windows/manual usage, use `Jenkins.bat`.
 # July2026 E2E (recovered)
 
 This scaffold restores a basic Playwright end-to-end test for the login scenario.
