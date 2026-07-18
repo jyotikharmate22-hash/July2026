@@ -8,7 +8,7 @@ export class BasePage {
   }
 
   async navigate(url: string) {
-    await this.page.goto(url, { waitUntil: 'load', timeout: 60000 });
+    await this.page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
   }
 
   async click(locator: string | Locator) {
